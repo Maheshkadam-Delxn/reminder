@@ -1,8 +1,8 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Sidebar from './components/Sidebar'
-import Header from './components/Header'
+import Sidebar from '../../src/app/user/components/Sidebar'
+import Header from '../../src/app/user/components/Sidebar'
 
 export default function UserLayout({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
