@@ -160,7 +160,7 @@ export default function CompliancePage() {
   return (
     <div className="space-y-6">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
+      {/* <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
         {statCards.map((card, index) => (
           <div key={index} className={`${card.bgColor} rounded-lg p-4 border border-gray-200`}>
             <div className="flex items-center justify-between">
@@ -191,7 +191,7 @@ export default function CompliancePage() {
             )}
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* Filter */}
       <div className="flex gap-4">

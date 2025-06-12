@@ -1,43 +1,49 @@
 "use client";
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { 
   ClipboardList, 
   Bell, 
   ChevronLeft, 
   ChevronRight,
-  Home
+  Home,
+  LogOut
 } from 'lucide-react';
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   const menuItems = [
     {
       name: 'Dashboard',
       icon: Home,
       path: '/user',
-      active: router.pathname === '/user'
+      active: pathname === '/user'
     },
-   
     {
       name: 'Compliance',
       icon: ClipboardList,
       path: '/user/compliance',
-      active: router.pathname === '/user/compliance'
+      active: pathname === '/user/compliance'
     }
   ];
+
+  const handleLogout = () => {
+    // Here you would typically clear authentication tokens or user session
+    router.push('/');
+  };
 
   return (
     <div className={`bg-gray-900 text-white h-screen transition-all duration-300 ${
       isCollapsed ? 'w-16' : 'w-64'
-    } fixed left-0 top-0 z-50`}>
+    } fixed left-0 top-0 z-50 flex flex-col`}>
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-700">
         {!isCollapsed && (
-          <h2 className="text-xl font-bold text-blue-400">user Compliance</h2>
+          <h2 className="text-xl font-bold text-blue-400">User Compliance</h2>
         )}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
@@ -48,7 +54,7 @@ const Sidebar = () => {
       </div>
 
       {/* Navigation */}
-      <nav className="mt-6">
+      <nav className="mt-6 flex-1">
         {menuItems.map((item) => {
           const IconComponent = item.icon;
           return (
@@ -69,6 +75,19 @@ const Sidebar = () => {
           );
         })}
       </nav>
+
+      {/* Logout Button */}
+      <div className="p-4 border-t border-gray-700">
+        <button
+          onClick={handleLogout}
+          className={`flex items-center w-full px-4 py-3 mx-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-colors`}
+        >
+          <LogOut size={20} />
+          {!isCollapsed && (
+            <span className="ml-3 font-medium">Logout</span>
+          )}
+        </button>
+      </div>
     </div>
   );
 };
