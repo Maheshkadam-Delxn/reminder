@@ -8,8 +8,7 @@ import {
   Lock, 
   ArrowRight, 
   Shield,
-  AlertCircle,
-  Building,
+  User,
   ArrowLeft
 } from 'lucide-react';
 
@@ -22,7 +21,7 @@ const LoginPage = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [loginType, setLoginType] = useState('email'); // 'email' or 'organization'
+  const [loginType, setLoginType] = useState('user'); // 'user' or 'admin'
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -42,12 +41,12 @@ const LoginPage = () => {
       setIsLoading(false);
       
       // Redirect based on login type without validation
-      if (loginType === 'email') {
+      if (loginType === 'user') {
         router.push('/user');
       } else {
         router.push('/admin');
       }
-    }, 1000); // Shorter timeout since we're not validating
+    }, 1000);
   };
 
   const handleForgotPassword = () => {
@@ -93,51 +92,51 @@ const LoginPage = () => {
           <div className="flex bg-white/10 rounded-2xl p-1 mb-6">
             <button
               type="button"
-              onClick={() => setLoginType('email')}
+              onClick={() => setLoginType('user')}
               className={`flex-1 flex items-center justify-center py-3 px-4 rounded-xl transition-all duration-300 ${
-                loginType === 'email' 
+                loginType === 'user' 
                   ? 'bg-white text-purple-600 shadow-lg' 
                   : 'text-white/70 hover:text-white'
               }`}
             >
-              <Mail className="w-4 h-4 mr-2" />
-              Email
+              <User className="w-4 h-4 mr-2" />
+              User
             </button>
             <button
               type="button"
-              onClick={() => setLoginType('organization')}
+              onClick={() => setLoginType('admin')}
               className={`flex-1 flex items-center justify-center py-3 px-4 rounded-xl transition-all duration-300 ${
-                loginType === 'organization' 
+                loginType === 'admin' 
                   ? 'bg-white text-purple-600 shadow-lg' 
                   : 'text-white/70 hover:text-white'
               }`}
             >
-              <Building className="w-4 h-4 mr-2" />
-              Organization
+              <Shield className="w-4 h-4 mr-2" />
+              Admin
             </button>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email/Organization ID Field */}
+            {/* Email/Admin ID Field */}
             <div>
               <label className="block text-white/90 text-sm font-semibold mb-3">
-                {loginType === 'email' ? 'Email Address' : 'Organization ID'}
+                {loginType === 'user' ? 'Email Address' : 'Admin ID'}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  {loginType === 'email' ? (
+                  {loginType === 'user' ? (
                     <Mail className="h-5 w-5 text-white/50" />
                   ) : (
-                    <Building className="h-5 w-5 text-white/50" />
+                    <Shield className="h-5 w-5 text-white/50" />
                   )}
                 </div>
                 <input
-                  type={loginType === 'email' ? 'email' : 'text'}
+                  type={loginType === 'user' ? 'email' : 'text'}
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
                   className="block w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all"
-                  placeholder={loginType === 'email' ? 'your@email.com' : 'ORG12345'}
+                  placeholder={loginType === 'user' ? 'your@email.com' : 'ADMIN12345'}
                 />
               </div>
             </div>

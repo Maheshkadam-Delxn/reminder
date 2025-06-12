@@ -38,10 +38,7 @@ export default function RemindersPage() {
           <h1 className="text-3xl font-bold text-blue-600">
             Dashboard: Upcoming Expiry Reminders
           </h1>
-          <div className="flex items-center space-x-2 text-gray-600">
-            <Calendar size={20} />
-            <span>Last updated: {new Date().toLocaleDateString()}</span>
-          </div>
+          
         </div>
 
         {/* Consent Expiry Reminders */}

@@ -37,7 +37,7 @@ const Sidebar = () => {
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-700">
         {!isCollapsed && (
-          <h2 className="text-xl font-bold text-blue-400">Compliance Hub</h2>
+          <h2 className="text-xl font-bold text-blue-400">user Compliance</h2>
         )}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
