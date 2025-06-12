@@ -2,15 +2,18 @@
 'use client';
 import { useState, useEffect } from 'react';
 import UserList from '../components/UserList';
-import CreateUserModal from '../components/CreateUserModal';
 import EditUserModal from '../components/EditUserModal';
 
 export default function UsersPage() {
   const [users, setUsers] = useState([]);
-  const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [createFormData, setCreateFormData] = useState({
+    loginId: '',
+    email: '',
+    password: ''
+  });
 
   // Mock data - simplified to only include fields used in creation
   useEffect(() => {
@@ -43,17 +46,35 @@ export default function UsersPage() {
     setUsers(mockUsers);
   }, []);
 
-  const handleCreateUser = (userData) => {
+  const handleCreateUser = (e) => {
+    e.preventDefault();
     const newUser = {
       id: users.length + 1,
-      name: userData.name,
-      email: userData.email,
+      name: createFormData.loginId,
+      email: createFormData.email,
       status: 'active',
       lastLogin: 'Never',
-      createdAt: new Date().toISOString().split('T')[0]
+      createdAt: new Date().toISOString().split('T')[0],
+      // Add any additional default fields you need
+      phone: '',
+      complianceCategory: 'General',
+      complianceStatus: 'compliant',
+      expiryDate: new Date(new Date().setMonth(new Date().getMonth() + 6)).toISOString().split('T')[0]
     };
     setUsers([...users, newUser]);
-    setShowCreateModal(false);
+    // Reset form
+    setCreateFormData({
+      loginId: '',
+      email: '',
+      password: ''
+    });
+  };
+
+  const handleCreateFormChange = (e) => {
+    setCreateFormData({
+      ...createFormData,
+      [e.target.name]: e.target.value
+    });
   };
 
   const handleEditUser = (userData) => {
@@ -85,12 +106,59 @@ export default function UsersPage() {
             Create, edit, and manage user accounts
           </p>
         </div>
-        <button
-          onClick={() => setShowCreateModal(true)}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium"
-        >
-          Create New User
-        </button>
+      </div>
+
+      {/* Create User Form - Now permanently visible */}
+      <div className="bg-white p-6 rounded-lg shadow">
+        <h2 className="text-xl font-semibold mb-4">Create New User</h2>
+        <form onSubmit={handleCreateUser} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Login ID</label>
+              <input
+                type="text"
+                name="loginId"
+                required
+                value={createFormData.loginId}
+                onChange={handleCreateFormChange}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Email</label>
+              <input
+                type="email"
+                name="email"
+                required
+                value={createFormData.email}
+                onChange={handleCreateFormChange}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Password</label>
+              <input
+                type="password"
+                name="password"
+                required
+                value={createFormData.password}
+                onChange={handleCreateFormChange}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+          </div>
+          
+          <div className="flex justify-end pt-2">
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-blue-700"
+            >
+              Create User
+            </button>
+          </div>
+        </form>
       </div>
 
       {/* Filters */}
@@ -122,13 +190,6 @@ export default function UsersPage() {
         onEdit={setEditingUser}
         onDelete={handleDeleteUser}
       />
-
-      {showCreateModal && (
-        <CreateUserModal
-          onClose={() => setShowCreateModal(false)}
-          onSubmit={handleCreateUser}
-        />
-      )}
 
       {editingUser && (
         <EditUserModal

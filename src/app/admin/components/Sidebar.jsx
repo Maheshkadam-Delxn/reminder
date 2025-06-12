@@ -9,6 +9,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const navigation = [
     { name: 'Dashboard', href: '/admin', icon: '📊' },
     { name: 'Users', href: '/admin/users', icon: '👥' },
+    { name: 'Form', href: '/admin/compliancee', icon: '📝' }, // Added new navigation item
   ];
 
   const handleLogout = () => {
